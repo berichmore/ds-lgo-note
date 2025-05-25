@@ -1,4 +1,4 @@
-좋아 Jay,
+**좋아 Jay,
 이제 **ArrayList 학습 방식 그대로 LinkedList도 처음부터 끝까지, 구조 → 이유 → 구현 순서대로** 갈 수 있어.
 우리가 직접 만드는 `MyLinkedList`는 Java의 `LinkedList`처럼 동작하지만,
 너 스스로 그 내부 동작을 **완전히 이해한 상태로** 한 줄씩 구현하는 걸 목표로 할 거야.
@@ -149,3 +149,219 @@ Jay,
 
 ### Chapter 2. Node 구조 정의
 - Step 1. Node는 무엇인가?
+> Node는 값(value) 과 다음 노트를 가리키는 참조(next)를 가진 작은상자임.
+> 모든 LinkedList는 이 Node들이 서로 연결되어 하나의 줄을 이루는 구조임
+> ```java
+> class Node{
+> int value;
+> Node next;
+> }
+> ```
+> 그래서 이렇게 연결 됨
+> > [10] -> [20] -> [30] -> null
+> 
+- Step 2. 왜 Node 클래스를 내부 클래스(inner class)로 만들까?
+> - Node는 MyLinkedList만 사용하는 전용 구조이기 때문에 외부에서 쓸 수 없음
+> - 그래서 MyLinkedList 내부에   
+> **private static class Node**  
+> 형태로 정의하면, 
+>  - 캡슐화 잘 되고
+>  - 클래스 간 의존성도 줄어들어
+> ```java
+> private static class Node{
+>   int value;  //노드 안에 저장된 실제 값
+>   Node next;  // 다음 노드를 가리키는 참조(없으면 null)
+> 
+> Node(int value){
+>   this.value = value;
+>   this.next = null;   //다음 노드는 아직 없음
+> }
+> }
+> ```
+- Step 3. 전체 구조 그림
+```plaintext
+  head -> [10] -> [20] -> [30] -> null
+            ↑       ↑       ↑
+           Node    Node    Node
+  ```
+
+    - 각 노드는 :
+    >  자기 값을 갖고 있고
+    > 다음 노드를 가리키는 화살표를 
+      가지고 있음.
+
+
+### Chapter 3 - 핵심 필드 정의
+
+🎯 우리는 어떤 필드를 가질까?  
+MyLinkedList 클래스는 전체 노드들을 제어하는 역할을 한다.  
+그 중심에 있는 필드는 다음 두 가지야:
+
+필드 이름 |  설명  
+head    | 리스트의 **첫 번째 노드를** 가리키는 참조  
+size    | 리스트에 들어 있는 **노드의 개수**를 추적**
+
+🔍 1. head - 연결의 시작점
+```java
+private Node head;
+```
+- head는 LinkedList의 **시작 노드**를 가리킴
+- 첫 번째 노드를 잃어버리면 전체 리스트를 추적할 수 없음
+- null이면 리스트가 비어있는 상태  
+  📌 예시:  
+```plaintext
+head -> [10] -> [20] -> [30] -> null
+```  
+🔍 2. size - 현재 리스트의 길이  
+```java
+private int size;
+```
+- 현재 노드의 개수를 추적
+- add() 할 때 1씩 증가  
+- remove() 할 때 1씩 감소
+- get(index) 같은 메서드에서 **index 범위 검사**에 필수  
+
+🔧 클래스 기본 구조 예시
+```java
+public class MyLinkedList {
+    //Node 정의( 앞에서 만들었던 내부 클래스  
+    private static class Node{
+        int value;
+        Node next;
+        
+        Node(int value){
+            this.value = value;
+            this.next = null;
+        }
+    }
+    
+    //✅핵심 필드
+    private Node head; //첫 노드를 가리킴
+    private int size; // 전체 노드 수 
+    
+    //생성자
+    public MyLinkedList(){
+        this.head = null; //처음엔 아무 노드도 없음  
+        this.size = 0;
+    }
+}
+```  
+🧠 요약 그림
+```plaintext
+(MyLinkedList)
+|-- head -> [10] -> [20] -> [30] -> null
+|-- size = 3
+```
+
+✍️ 정리  
+> head는 연결 리스트의 시작점이고,
+> size는 노드가 몇 개 들어있는지를 알려주는 필드다.
+> 리스트가 비어 있으면 head는 null이고,
+> 어떤 작업이 일어나도 size는 항상 업데이트되어야 한다.
+
+### Chapter 4 - add(int value) 구현
+🎯 목표
+> MyLinkedList에 값을 맨 끝에 추가하는  기능 만들기
+
+🔍 작동방식
+- add(10)을 호출하면 리스트 끝에 10이 들어간다.
+```java
+MyLinkedList list = new MyLinkedList();
+list.add(10);   //[10]
+list.add(20);   //[10 -> 20]
+list.add(30);   //[10 -> 20 -> 30]
+```
+📌 상황 분기  
+add(int value)는 두 가지 상황으로 나눠서 생각해야 함:
+1. 리스트가 비어 있을 때 -> head == null  
+    - 새로운 노드를 만들고 head에 연결한다
+2. 리스트가 비어 있지 않을 때 -> head != null
+    - head부터 시작해서 마지막 노드까지 next를 타고 간다.
+    - 마지막 노드의 next를 새 노드로 설정한다.
+
+```java
+//MyLinkedList 클래스 내부
+ public void add(int value){
+    Node newNode = new Node(value); //새로운 노드 생성
+     //리스트가 비어있으면 head에 바로 연결
+     head = newNode;
+ }else{
+    //비어있지 않으면 마지막 노드를 찾아서 연결
+         Node current = head;
+         while(current.next != null){
+             current = current.next; // 다음 노드로 이동
+         }
+         curren.next = newNode; //마지막 노드의 next에 연결
+         }
+         size++; //리스트 크기 증가
+}
+```
+
+🧠 그림으로 이해하기 
+```plaintext
+처음 상태 (add 10 전):
+head -> null
+
+1번째 추가 (add 10):  
+head -> [10] -> null  
+
+2번째 추가 (add 20):  
+head -> [10] -> [20] -> null  
+
+3번째 추가 (add 30):  
+head -> [10] -> [20] -> [30] -> null
+```
+
+🔧 핵심 포인트 복습
+
+개념  || 설명
+>- head == null
+>  - 리스트가 비었는지 체크하는 조건
+>- while(current.next != null)
+>  - 마지막 노드까지 이동하는 반복문
+>- current.next = newNode
+>  - 연결 리스트에서 다음 노드를 추가하는 핵심 코드
+>- siez++ 
+>  - 리스트의 크기를 반드시 증가시켜야 함
+
+
+✍️ 요약
+> add(int value)는 리스트의 끝에 새 값을 추가한다.  
+> 처음에는 head가 없기 때문에 head = newNode로 설정하고  
+> 그 이후에는 마지막 노드를 찾은 후 거기 next에 새 노드를 연결한다.  
+> 추가할 때마다 size도 1씩 증가시킨다.
+
+--- 
+
+### Chapter 5. get(int index) 구현
+
+🎯 목표
+> get(1)처럼 호출하면 리스트에서 1번째 위치의 값을 반환하게 만들기
+
+```java
+MyLinkedList list = new MyLinkedList();
+list.add(10);   //index 0
+list.add(20);   //index 1
+list.add(30);   //index 2
+
+System.out.println(list.get(1));  //출력: 20
+```
+
+🔍 핵심 개념
+✅ 인덱스 접근은 직접 못 한다.
+- 배열이라면 data[1] 이렇게 바로 접근할 수 있지만
+- LinkedList는 그런 기능이 없다.
+- 그래서 head부터 next를 따라가면서 인덱스를 세야 해
+
+🔧 구현 절차
+1. 인덱스 유효성 검사
+    - index < 0 || index >= size면 예외 발생
+2. 노드를 순서대로 따라가기
+    - head부터 시작해서 index번 이동한다
+3. 도착한 노드의 value를 반환
+
+
+
+
+
+
