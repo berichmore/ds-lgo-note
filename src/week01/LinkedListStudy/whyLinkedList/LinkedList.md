@@ -403,6 +403,28 @@ list = [10] -> [20] -> [30] -> null
 > 한 칸씩 이동해서 찾아야 하는 게 포인트다.  
 > 그래서 접근 속도는 느리다(O(n))
 
+### Chapter 6 - set(int index, int value) 구현  
 
+🎯 목표  
+리스트 안의 특정 위치(index)에 저장된 값을 새 값(value)으로 바꾸는 기능 만들기
+```java
+MyLinkedList list  = new MyLinkedList();
+list.add(10); //index 0
+list.add(20); //index 1
+list.add(30); //index 2
 
+list.set(1, 99); // index 1 위치의 20을 99로 바꿈  
 
+System.out.println(list.get(1)); //결과 : 99
+
+```
+🔍 핵심 개념 요약
+- get(index) -> 해당 위치까지 이동해서 **값을 읽기**
+- set(index, value) -> 해당 위치까지 이동해서 값을 덮어쓰기
+
+즉, 이동 방식은 완전히 동일,
+마지막 동작만 다름
+-> get()은 return current.value,
+-> set()은 current.value = value
+d
+ㄹ
