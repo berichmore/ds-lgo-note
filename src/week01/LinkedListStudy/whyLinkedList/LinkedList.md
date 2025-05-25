@@ -347,7 +347,7 @@ list.add(30);   //index 2
 System.out.println(list.get(1));  //출력: 20
 ```
 
-🔍 핵심 개념
+🔍 핵심 개념  
 ✅ 인덱스 접근은 직접 못 한다.
 - 배열이라면 data[1] 이렇게 바로 접근할 수 있지만
 - LinkedList는 그런 기능이 없다.
@@ -361,6 +361,47 @@ System.out.println(list.get(1));  //출력: 20
 3. 도착한 노드의 value를 반환
 
 
+✅ 구현 코드
+```java
+if(index < 0 || index >= size){
+    throw new IndexOutOfBoundsException("인덱스 범위 초과: " + index);
+        }
+// 2. head부터 index번째 노드까지 이동
+Node current = head;
+for(int i = 0; i < index; i++){
+    current = current.next;
+        }
+// 3. 해당 노드의 value값 반환
+    return current.value;
+}
+```
+🧠 예시 흐름
+
+```plaintext
+list = [10] -> [20] -> [30] -> null
+           ↑ 
+         index = 1
+         
+ get(1) 호출 시 : 
+ - current = head
+ - current = current.next(1번 이동)
+ - 도착한 노드: [20]
+ - 반환 값: 20
+```
+
+🛑 예외 처리 중요!
+
+```java
+ if( index <0 || index >= size)
+```
+이걸 안 넣으면 NullPoniterException이 터질 수 있음
+잘못된 인덱스를 넣었을 때 **직접 알려주는 것이 좋은 API 설계**임
+
+✍️ 요약
+
+> get(index)는 인덱스만큼 head부터 next를 타고 이동해서도착한 노드의 값을 반환하는 방식이다. 배열처럼 바로 접근은 안되고,  
+> 한 칸씩 이동해서 찾아야 하는 게 포인트다.  
+> 그래서 접근 속도는 느리다(O(n))
 
 
 
