@@ -426,5 +426,48 @@ System.out.println(list.get(1)); //결과 : 99
 마지막 동작만 다름
 -> get()은 return current.value,
 -> set()은 current.value = value
-d
+```java
+public void set(int index, int value){
+    // 1. 인덱스 범위 검사
+    if(index < 0 || index >= size){
+        throw new IndexOutOfBoundsException("인덱스 범위 오류: " + index );
+    }
+    // 2. 해당 위치까지 순차적으로 이동 
+   Node current = head;
+    for(int i = 0; i < index; i++ ){
+        current = current.next;
+    }
+    // 3. 해당 노드의 값을 새 값으로 수정
+    current.value = value;
+}
+```
+🧠 흐름 예시
+```plaintext
+초기 상태:  
+head -> [10] -> [20] -> [30] -> null
+
+set(1, 99) 호출하면 :   
+
+head -> [10] -> [99] -> [30] -> null  
+            ↑
+         index = 1 위치의 값이 20 -> 99로 변경 
+```
+📌 에러 처리 포인트
+- 
+- 인덱스가 음수거나 현재 size이상이면 IndexOutOfBoundsException 발생시켜야 함
+- 이건 프로 개발자가 만드는 API에서 반드시 지켜야 할 기본 안전장치임
+
+✍️ 요약
+>
+> set(index, value)는 get(index)처럼 이동해서 도착한 노드의 값을 바꾸는 기능이다.  
+> 순차 탐색 방식이고, 인덱스 예외 처리도 꼭 필요하다.  
+> 배열의 data[index] = value 와 비슷한 역할이지만  
+> 내부 구조는 포인터 기반이기 때문에 직접 따라가야 한다.  
+> 
+
+
+
+
+
+
 ㄹ
