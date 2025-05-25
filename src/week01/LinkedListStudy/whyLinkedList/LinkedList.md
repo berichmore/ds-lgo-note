@@ -466,8 +466,94 @@ head -> [10] -> [99] -> [30] -> null
 > 
 
 
+### Chapter 7 - remove(int index) - 구현  
 
 
+🎯 목표  
+> remove(index)를 호출하면  
+> 해당 위치의 노드를 삭제하고 리스트를 당긴다.
+
+```java
+MyLinkedList list = new MyLinkedList();
+list.add(10); // index 0
+list.add(20); // index 1
+list.add(30); // index 2
+```
+list.remove(1); // index 1인 20 삭제
+
+출력: [10 -> 30]
+
+📌 LinkedList 삭제의 본질
+- 
+🔗 "이전 노드의 next를 건너뛴다."
+```plaintext
+삭제 전: 
+[10] -> [20] -> [30] 
+
+삭제 대상: [20]
+
+삭제 후: 
+
+[10] -------> [30]  
+
+```
+[10].next = [30] 으로 바꾸는게 핵심!
+
+🧠 두 가지 상황 분기
+1. index == 0 (첫 번째 노드 삭제)  
+   -> **head = head.next** 로 처리
+2. index > 0 (중간 또는 마지막 노드 삭제)  
+   -> index - 1 번째까지 가서,   
+   current.next = current.next.next 처리
+
+✅ 구현 코드
+```java
+public void remove(int index){
+    //1. 인덱스 유효성 검사
+   if(index < 0 || index >= size){
+       throw new IndexOutOfBoundsException("인덱스 범위 초과: " + index);
+   }
+   // 2. 삭제
+   if(index == 0){
+       head = head.next;
+   }else{
+       //그 외: index -1 번째 노드까지 이동
+      Node current = head;
+      for(int i = 0; i < index - 1; i++){
+          current = current.next;
+      }
+      
+      // current.next = 삭제할 노드
+      // current.next.next = 삭제할 노드의 다음 노드
+      current.next = current.next.next;
+   }
+   size--; //리스트 크기 감소
+}
+```
+🔧 코드 흐름 요약
+삭제 대상이 index = 0;
+head -> [10] -> [20] -> [30]
+         ↑  
+        head
+
+-> head = head.next  
+-> head -> [20] -> [30]  
+
+삭제 대상이 index = 1:  
+head -> [10] -> [20] -> [30]  
+
+current = [10]  
+current.next = [20]  
+current.next.next = [30]  
+
+-> current.next = [30]  
+
+✍️  요약  
+> remove(index)는 해당 위치의 노드를 삭제하는 기능이다.  
+> index가 0이면 head는 한 칸 앞으로 옮기고,  
+> 그 외엔 index-1 번째 노드를 찾아서  
+> 그 노드의 next를 두 칸 건너뛴다.  
+> 삭제 후엔 size--도 꼭 한다.
 
 
 ㄹ
