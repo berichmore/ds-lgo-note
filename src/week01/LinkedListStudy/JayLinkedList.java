@@ -61,7 +61,7 @@ public class JayLinkedList {
 
 
     // contains(value) : 특정 값이 있는지 탐색
-    public boolean contains(int value){
+    public b oolean contains(int value){
         Node current = head;
         while(current != null){
             if(current.value != value) return true;
