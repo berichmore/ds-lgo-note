@@ -548,3 +548,188 @@ peek(): 20
 지금 너는 배열 기반 Stack을 직접 설계하고, 구현하고, 동작까지 추적해봤어.  
 이제 Stack이라는 자료구조가 네 머릿속에  
 그림, 코드, 로직으로 완전히 연결됐을 거야
+
+# 🔗 Chapter 6. 연결리스트 기반 Stack 구현 - 동적 메모리 방식
+
+## ✅ 6-1. 왜 연결리스트 기반 Stack이 필요한가?  
+배열 기반 Stack은 깔끔하고 빠르지만 한계가 있어.  
+### 📌 배열기반 Stack의 한계: 
+문제점 | 설명  
+> ✅ 고정 크기 : 배열은 처음 크기를 정해야 해. 초과되면 오류 발생.  
+> ✅ 공간 낭비 : 데이터가 적으면 메모리 낭비  
+> ✅ 재할당 비효율 : 크기 확장 시 새로운 배열 생성 + 복사  
+>
+
+🔄 해결책 : 연결리스트로 구현  
+- Stack은 어차피 맨 위(top)에서만 넣고 빼니까  
+- LinkedList의 head 쪽만 쓰면 아주 자연스럽게 구현됨  
+
+
+💡 6-2. 구조적으로 완벽한 조합: Stack + LinkedList  
+구조 그림: 
+```java
+Top -> [30] -> [20] -> [10] -> null
+```
+- 가장 위에 있는 노드 = Stack의 top  
+- 데이터를 넣으면 -> 맨 앞에 추가 (Push)  
+- 데이터를 빼면 -> 맨 앞에서 제거 (Pop)  
+> 연결리스트의 삽입/삭제는 head에서 할 때 O(1) 이니까  
+> Stack에 딱 맞는 구조지. 
+>
+
+🧱 6-3. 클래스 구조 설계  
+
+🧩 Node 클래스 (내부 클래스로 작성 )  
+```java
+private static class Node{
+    int value; 
+    Node next;  
+    
+    Node(int value){
+        this.value = value;
+        this.next = null;
+    }
+} 
+```
+🧩 MyStack 필드 구성  
+```java
+public class MyStack {
+    private Node top; //가장 위 노드를 가리킴  
+    private int size; // 요소 수 
+}
+```
+
+🧪6-4. 메서드별 구현  
+✅ push(int value)  
+```java
+public void push(int value){
+    Node newNode = new Node(value);
+    newNode.next = top; // 기존 top 위에 덮어 씌우기
+    top = newNode; // top 갱신  
+    size++; 
+}
+```
+✅ pop()
+
+```java
+public int pop(){
+    if(isEmpty()){
+        throw new RuntimeException("스택이 비어 있습니다.");
+    }
+    int result = top.value;
+    top = top.next; //다음 노드가 top이 됨 
+    size--;
+    return result;
+}
+```
+✅ peek()  
+```java
+public int peek(){
+    if(isEmpty()){
+        throw new RuntimeException("스택이 비어 있습니다.");
+    }
+    return top.value;
+}
+```
+
+✅ isEmpty() & size()
+```java
+public void isEmpty(){
+    return top == null; 
+}
+public int size() {
+    return size; 
+}
+```
+✅ 6-5. 전체 클래스 코드  
+```java
+public class MyStack {
+    private static class Node {
+        int value;
+        Node next;
+
+        Node(int value) {
+            this.value = value;
+            this.next = null;
+        }
+    }
+    private Node top; 
+    private int size; 
+    
+    public MyStack{
+        this.top = null; 
+        this.size = 0; 
+    }
+    
+    public void push(int value) {
+        Node newNode = new Node(value);
+        top = newNode;
+        size++;
+    }
+    
+    public int pop(){
+        if(isEmpty()){
+            throw new RuntimeException("스택이 비어 있습니다.");
+        }
+        int result = top.value;
+        top = top.next; 
+        size--;
+        return result;
+    }
+    
+    public int peek(){
+        if(isEmpty()){
+            throw new RuntimeException("스택이 비어 있습니다.");
+        }
+        int result = top.value;
+        top = top.next; 
+        size--;
+        return result;
+    }
+    public boolean isEmpty(){
+        return top == null;
+    }
+    public int size(){
+        return size;
+    }
+}
+
+```
+
+🧪 6-6. 테스트 예시  
+```java
+public class Main{
+    public static void main(String[] args){
+        MyStack stack = new MyStack();
+        
+        stack.push(10);
+        stack.push(20);
+        stack.push(30);
+        
+        System.out.println(stack.pop()); //30
+        System.out.println(stack.peek()); // 20
+        System.out.println(stack.size()); // 2 
+    }
+}
+```
+🧠 6-7. 메모리 구조 흐름 시각화  
+```plaintext
+push(10) : top -> [10]  
+push(20) : top -> [20] -> [10]  
+push(30) : top -> [30] -> [20] -> [10]
+
+pop(): top -> [20] -> [10]
+```
+✍️ 정리 
+
+구현 방식  | 특징
+> 배열 기반 : 구현 쉽고 빠름, 고정 크기  
+> 연결리스트 기반 : 메모리 효율적, 크기 제한 없음, 동적 구조  
+> 
+> Stack은 둘 다 장단점이 있고,  
+> 네가 필요한 상황에 따라 배열 vs 연결리스트 중 선택하면 돼.  
+
+지금 너는 Stack을 배열 기반/ 연결리스트 기반 두 가지 방식으로 전부 구현했어.  
+
+
+
