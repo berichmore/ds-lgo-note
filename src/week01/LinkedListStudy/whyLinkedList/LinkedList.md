@@ -555,5 +555,97 @@ current.next.next = [30]
 > 그 노드의 next를 두 칸 건너뛴다.  
 > 삭제 후엔 size--도 꼭 한다.
 
+### Chapter8 - 유틸 기능 구현
+
+🎯 목표  
+아래와 같은 **보조 기능**들을 직접 구현해보자  
+
+메서드 이름 | 설명  
+> contains(int value): 특정 값이 있는지 여부 반환  
+> clear() : 전체 리스트 비우기  
+> toString() : 리스트를 보기 좋게 문자열로 출력
+
+1️⃣ contains(int value) 구현   
+
+✅ 설명  
+리스트를 앞에서부터 순회하면서,  
+value와 일치하는 노드가 있으면 true 반환,  
+끝까지 없으면 false 반환.  
+
+🔧 코드 
+```java
+public boolean contains(int value){
+    Node current = head; 
+    
+    while(current != null){
+        if(current.value == value){
+            return true;
+        }
+        current = current.next
+    }
+    
+    return false;
+}
+```
+
+2️⃣ clear() 구현  
+
+✅ 설명  
+head를 끊어버리고, 
+size = 0 으로 설정하면  
+자바의 GC가 나머지 노드들을 자동 정리해준다.  
+
+🔧 코드  
+```java
+public void clear(){
+    head = null;
+    size = 0;
+}
+```
+
+3️⃣ toString() 구현  
+
+✅ 설명  
+리스트의 상태를 문자열로 보여주는 함수.  
+예시 출력 : [10 -> 20 -> 30]  
+
+🔧 코드 
+```java
+@Override
+public String toString() {
+    stringBuilder sb = new StringBuilder();  
+    sb.append("[");
+    
+    Node current = head; 
+    while (current != null){
+        sb.append(current.value);
+        if(current.next != null){
+            sb.append(" -> ");
+        }
+        current = current.next;
+    }
+    
+    sb.append("]");
+    return  sb.toString();
+}
+```
+
+✍️ 요약
+> - "'currnet(value)' 는 순회하면서 같이 있는지 확인"
+> - "'clear()'는 head를 끊고 size를 0으로 초기화"
+> - "'toString()'은 리스트를 보기 좋게 문자열로 출력"
+
+
+### Chapter 9 - 중간 삽입 / 삭제 구현
+
+📌구현 목표
+
+1️⃣ add(int index, int value)
+-> 특정 위치에 새 값을 삽입
+
+2️⃣ remove(int index)
+-> 이미 구현했지만, 복습하며 다시 이해(특히 중간 삭제 구조)
+
+
 
 ㄹ
