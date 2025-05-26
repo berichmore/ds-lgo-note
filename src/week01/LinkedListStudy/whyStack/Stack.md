@@ -1,4 +1,7 @@
-# Stack 
+# Stack
+
+
+
 > 10만자 이상으로 공부하기
 >
 > 챕터별로 나누고,  
@@ -352,10 +355,10 @@ stack.push(30);  // top : 0
 ```
 
 호출 순서 | 내부 상태(data) | top  
-> 초기 :  [][][][]... -1  
-> push(10) :  [10][][][]... 0  
-> push(20) : [10][20][][]... 1  
-> pop()  :  [10][20][][]... 0
+> 초기 :  [ ][ ][ ][ ]... -1  
+> push(10) :  [10][ ][ ][ ]... 0  
+> push(20) : [10][20][ ][ ]... 1  
+> pop()  :  [10][20][ ][ ]... 0
 > 
 > Stack은 항상 top을 중심으로 위 아래만 움직이는 자료구조야.
 > 
@@ -377,3 +380,171 @@ stack.push(30);  // top : 0
 > 메서드 : push, pop, peek, isEmpty, size 등
 
 
+### 💻 Chapter 5. 배열 기반 Stack 구현 - 구조부터 완성까지  
+
+5-1. 이번 챕터 목표  
+
+> 🎯목표 : 직접 MyStack 클래스를 만들고  
+> push, pop, peek, isEmpty, size 전부 구현해서   
+> 완전히 작동하는 배열 기반 Stack을 만들자. 
+> 
+ 
+5-2. 기본 설계 복습  
+```java
+public class MyStack{
+    private int[] data; // 데이터를 담을 배열  
+    private int top; // 현재 스택의 최상단 인덱스  
+    private static final int DEFAULT_CAPACITY = 10;
+    
+    public MyStack(){
+        this.data = new int[DEFAULT_CAPACITY];
+        this.top = -1; // 아무것도 안 쌓여 있으면 top은 -1
+    }
+}
+
+```
+
+📌 여기까지는 준비된 "그릇" 상태야.
+이제 여기에 기능을 하나씩 채워 넣는다. 
+
+5-3. push(int value) - 값을 넣는다.  
+개념 설명 : 
+- Stack에 새 데이터를 넣는 건  
+    -> top을 1 증가시키고, 거기에 값을 쓰는 것  
+코드 구현: 
+```java
+public void push(int value){
+    if(top == data.length - 1){
+        throw new RuntimeException("스택이 가득 찼습니다.");
+    }
+    data[++top] = value; // top을 먼저 증가시키고, 그 자리에 저장
+}
+```
+
+작동 흐름: 
+```plaintext
+초기 상태: top = -1
+
+push(10) -> top = 0 -> data[0] = 10
+push(20) -> top = 1 -> data[1] = 20
+```
+> 핵심 : ++top 먼저 하고 data[top]에 저장한다. 
+
+5-4. pop() - 값을 꺼낸다. 
+
+개념 설명 : 
+- Stack에서 값을 꺼낸다는 건  
+-> 현재 top 위치의 값을 꺼내고, top을 1 줄이는 것  
+
+코드 구현: 
+```java
+public int pop(){
+    if(isEmpty()){
+        throw new RuntimeException("스택이 비어 있습니다.");
+    }
+    return data[top--]; //먼저 값을 반환하고, 그 후에 top 감소
+}
+```
+> 핵심 : data[top]을 먼저 가져오고, top--으로 한 칸 내려온다.
+
+5-5. peek() - 맨위의 값을 확인한다 (꺼내지 않고)
+```java
+public int peek(){
+    inf(isEmpty()){
+        throw new RuntimeException("스택이 비어 있습니다.");
+    }
+    return data[top]; //pop과 달리 top을 줄이지 않음. 
+}
+```
+
+5-6. isEmpty() - 비었는지 확인 
+```java
+public boolean isEmpty(){
+   return top == -1; 
+        }
+```
+
+5-7. size() - 스택에 쌓인 데이터 개수 
+```java
+public int size(){
+    return top + 1;
+}
+```
+
+5-8. 전체 클래스 코드 완성 
+```java
+public class MyStack{
+    private int[] data;
+    private int top;
+    private static final int DEFAULT_CAPACITY = 10;
+    
+    public MyStack(){
+        this.data = new int[DEFAULT_CAPACITY];
+        this.top = -1;
+    }
+    public void push(int value) {
+        if(top == data.length -1){
+            throw new RuntimeException("스택이 가득 찼습니다.");
+        }
+        data[++top] = vlaue;
+    }
+    public int pop(){
+        if(isEmpty()){
+            throw new RuntimeException("스택이 비어있습니다.");
+        }
+        return data[top--];
+    }
+    public int peek(){
+        if(isEmpty()) {
+            throw new RuntimeException("스택이 비어 있습니다.");
+        }
+        return data[top];
+    }
+    public boolean isEmpty(){
+        return top == -1;
+    }
+    public int size(){
+        return top +1; 
+    }
+            
+}
+```
+
+5-9. 테스트 예제 코드 
+```java
+public class Main{
+    public static void main(String[] args){
+        MyStack stack = new MyStack();
+        
+        stack.push(10); 
+        stack.push(20);
+        stack.push(30);
+        
+        System.out.println(stack.pop()); //30
+        System.out.println(stack.pop()); //20
+        System.out.println(stack.size()); //2
+        System.out.println(stack.isEmpty()); //false
+    }
+}
+```
+
+5-10 스택 작동 흐름 시뮬레이션 
+```plaintext
+push(10): [10]
+push(20): [10,20]
+push(30): [10,20,30]
+pop() : 30 -> [10, 20]
+peek(): 20 
+```
+✍️ 정리
+메서드 | 핵심로직
+> push : ++top -> data[top] = value;  
+> pop : return data[top--]    
+> peek : return data[top]  
+> isEmpty : top == -1  
+> size : top + 1
+
+
+지금 너는 배열 기반 Stack을 직접 설계하고, 구현하고, 동작까지 추적해봤어.  
+이제 Stack이라는 자료구조가 네 머릿속에  
+그림, 코드, 로직으로 완전히 연결됐을 거야
