@@ -1,4 +1,4 @@
-package week01.LinkedListStudy.whyStack;
+package Study.week01.LinkedListStudy.whyStack;
 
 public class ArrayStack implements Stack{
     private int[] data;
