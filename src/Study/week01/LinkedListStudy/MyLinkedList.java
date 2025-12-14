@@ -1,4 +1,4 @@
-package week01.LinkedListStudy;
+package Study.week01.LinkedListStudy;
 
 
 // MyLinkedList 뼈대 만들기

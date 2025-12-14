@@ -1,6 +1,4 @@
-package week01.day01;
-
-import org.w3c.dom.ls.LSOutput;
+package Study.week01.day01;
 
 public class ArrayBasic {
     public static void main(String[] args) {

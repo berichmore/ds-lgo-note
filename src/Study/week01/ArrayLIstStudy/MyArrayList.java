@@ -1,4 +1,4 @@
-package week01.ArrayLIstStudy;
+package Study.week01.ArrayLIstStudy;
 
 public class MyArrayList {
     public static void main(String[] args){
