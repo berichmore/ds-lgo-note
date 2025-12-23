@@ -18,8 +18,8 @@ public class day33 {
 
         Arrays.sort(arr);
 
-        int result = arr[0] * arr[count-1];
-        System.out.println(result);
+//        int result = arr[0] * arr[count-1];
+//        System.out.println(result);
     }
 }
 
