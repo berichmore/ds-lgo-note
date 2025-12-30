@@ -17,12 +17,13 @@ public class day39 {
         }
     }
 
-    public Static String solve(String str){
+    public static String solve(String str){
         Stack<Character> stack = new Stack<>();
 
         for(int i = 0; i< str.length(); i++){
             char ch = str.charAt(i);
 
+            Character c = null;
             if(c == '('){
                 stack.push(c);
             }else {
