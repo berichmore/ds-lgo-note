@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 //https://www.acmicpc.net/problem/2605
 public class day42 {
     public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReada(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
 
