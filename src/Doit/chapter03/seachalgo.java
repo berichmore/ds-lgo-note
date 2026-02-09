@@ -151,6 +151,23 @@ class BinSearch {
     }
 }
 
+// 복잡도 구하기
+// 시공간 복잡도
+// 선형 검색의 시간 복잡도
+class seqSearch2 {
+
+    static int seqSearch(int[] a, int n, int key) {
+        int i = 0;
+
+        while (i < n) {
+            if (a[i] == key)
+                return i;    // 검색 성공!
+            i++;
+        }
+        return -1;      // 검색 실패!
+    }
+}
+
 
 
 
