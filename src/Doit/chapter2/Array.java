@@ -217,29 +217,29 @@ class ReversArray2 {
         for (int i = 0; i < a.length / 2; i++)
             swap(a, i, a.length - i - 1);
     }
-
-    public static void main(String[] args) {
-
-
-        switch (true){
-
-           case1:  Scanner sc = new Scanner(System.in);
-
-            System.out.print("요소수");
-            int num = sc.nextInt(); // 요소수
-            int[] x = new int[num];  //요소수가 num일 때
-
-            for (int i = 0; i < num; i++) {
-                System.out.print("x[" + i + "] ");
-                x[i] = sc.nextInt();
-            }
-
-            reverse(x);
-
-            System.out.println("역순 정렬");
-            System.out.println("x = " + Arrays.toString(x));
-        }
-    }
+//
+//    public static void main(String[] args) {
+//
+//
+//        switch (true){
+//
+//           case1:  Scanner sc = new Scanner(System.in);
+//
+//            System.out.print("요소수");
+//            int num = sc.nextInt(); // 요소수
+//            int[] x = new int[num];  //요소수가 num일 때
+//
+//            for (int i = 0; i < num; i++) {
+//                System.out.print("x[" + i + "] ");
+//                x[i] = sc.nextInt();
+//            }
+//
+//            reverse(x);
+//
+//            System.out.println("역순 정렬");
+//            System.out.println("x = " + Arrays.toString(x));
+//        }
+//    }
 }
 // p.51 ~ p. 69
 
@@ -262,6 +262,7 @@ class CardConv {
             d[i] = d[digits - i - 1];
             d[digits - i - 1] = t;
         }
+        return digits;
     }
 }
 
@@ -299,7 +300,7 @@ class PhysicalExamination {
     }
 
     // 시력 분포를 구함
-    static void distVision(PhyscData[] dat. int[] dist) {
+    static void distVision(PhyscData[] dat, int[] dist) {
         int i = 0;
         dist[i] = 0;
         for (i = 0; i < dat.length; i++)
