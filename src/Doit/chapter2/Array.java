@@ -161,33 +161,32 @@ class reverseArray {
 }
 
 class ReverseArray {
+    // 배열 요소 a[idx1]과 a[idx2]의 값을 바꿈
     static void swap(int[] a, int idx1, int idx2) {
-        int t = a[idx1]; a[idx1] = a[idx2]; a[idx2] = t;
+        int t  = a[idx1]; a[idx1] = a[idx2]; a[idx2] = t;
     }
 
     // 배열 a의 요소를 역순으로 정렬
     static void reverse(int[] a) {
-        for (int i = 0; i < a.length / 2; i++)
-            swap(a, i, a.length - i - 1);
-
+        for (int i = 0; i < a.length / 2; i++){
+            swap(a, i,a.length - i - 1);
+        }
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("요솟수 : ");
-        int num = sc.nextInt(); // 요솟수
+        System.out.print("요소수: ");
+        int num = sc.nextInt();     // 요소수
 
-        int[] x = new int[num];
+        int[] x = new int[num];     // 요소수가 num인 배열
 
         for (int i = 0; i < num; i++) {
-            System.out.print("x[" + i + "]:" );
             x[i] = sc.nextInt();
         }
+        reverse(x); // 배열 a의 요소를 역순으로 정렬
 
-        reverse(x);
-
-        System.out.println("요소를 역순으로 정렬");
+        System.out.println("요소를 역순으로 정렬했습니다.");
         System.out.println("x = " + Arrays.toString(x));
     }
 }
