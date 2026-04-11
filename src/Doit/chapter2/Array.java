@@ -191,7 +191,122 @@ class ReverseArray {
     }
 }
 
+// 260209 복습
+
+// random 난수
+class rand {
+
+    public static void main(String[] args) {
+        Random rand = new Random();
+        rand.nextFloat(); // 0.0 이상 1.0 미만
+        rand.nextDouble(); // 0.0 이상 1.0 미만
+        rand.nextInt(); //  +- 21억
+        rand.nextInt(); // 0 ~ n - 1
+    }
+}
+
+class ReversArray2 {
+
+    static void swap (int[] a, int idx1, int idx2) {
+        int t = a[idx1]; a[idx1] = a[idx2];  a[idx2] = t;
+    }
+
+    // 배열 a의 요소를 역순으로 정렬
+    static void reverse(int[] a) {
+        for (int i = 0; i < a.length / 2; i++)
+            swap(a, i, a.length - i - 1);
+    }
+
+    public static void main(String[] args) {
+
+
+        switch (true){
+
+           case1:  Scanner sc = new Scanner(System.in);
+
+            System.out.print("요소수");
+            int num = sc.nextInt(); // 요소수
+            int[] x = new int[num];  //요소수가 num일 때
+
+            for (int i = 0; i < num; i++) {
+                System.out.print("x[" + i + "] ");
+                x[i] = sc.nextInt();
+            }
+
+            reverse(x);
+
+            System.out.println("역순 정렬");
+            System.out.println("x = " + Arrays.toString(x));
+        }
+    }
+}
 // p.51 ~ p. 69
+
+
+// 기수 변환  p. 72
+
+class CardConv {
+    // 정숫값 x를 r진수로 변환하여 배열 d에 아랫자리부터 넣어두고 자릿수를 변환
+    static int cardConv(int x, int r, char[] d) {
+        int digits = 0; // 변환후의 자릿수
+        String dchar = "012356789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        do {
+            d[digits++] = dchar.charAt(x % r);  //r로 나눈 나머지를 저장
+            x /= r;
+        } while (x != 0);
+
+        for (int i = 0; i < digits / 2; i++) {  //배열 d의 숫자 문자열을 역순으로 정렬
+            char t = d[i];
+            d[i] = d[digits - i - 1];
+            d[digits - i - 1] = t;
+        }
+    }
+}
+
+
+// 클래스로 건너뛰기
+// p. 86
+
+// 클래스는 서로 다른 여러 데이터형을 자유로이 조합하여 만들 수 있는 자료구조
+
+// 실습 2-10 p.88
+class PhysicalExamination {
+    static final int VMAX = 21; //시력 분포(0.0 ~ 0.1 단위로 21개)
+
+    static class PhyscData {
+        String name;
+        int height;
+        double vision;
+
+        //생성자
+        PhyscData(String name, int height, double vision) {
+            this.name = name;
+            this.height = height;
+            this.vision = vision;
+        }
+    }
+
+    // 키의 평균값을 구함
+    static double aveHeight(PhyscData[] dat) {
+        double sum = 0;
+
+        for (int i = 0; i < dat.length; i++)
+            sum += dat[i].height;
+
+        return sum / dat.length;
+    }
+
+    // 시력 분포를 구함
+    static void distVision(PhyscData[] dat. int[] dist) {
+        int i = 0;
+        dist[i] = 0;
+        for (i = 0; i < dat.length; i++)
+            if (dat[i].vision >= 0.0 && dat[i].vision <= VMAX / 10.0)
+                dist[(int)(dat[i].vision * 10)]++;
+    }
+}
+
 
 
 
