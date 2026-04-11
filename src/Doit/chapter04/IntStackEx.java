@@ -69,5 +69,4 @@ public class IntStackEx {
     public int getcapacity() {
         return capacity;
     }
-
 }
