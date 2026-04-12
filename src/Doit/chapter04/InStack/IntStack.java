@@ -1,4 +1,4 @@
-package Doit.chapter04;
+package Doit.chapter04.InStack;
 
 public class IntStack {
     private int[] stack; // 스택용 배열
