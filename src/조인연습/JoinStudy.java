@@ -40,5 +40,16 @@ public class JoinStudy {
 
 
 
+
+    문제4)
+    모든 직원(staff)의 이름(first_name, last_name)과
+    그 직원이 근무하는 사무실의 주소(address)를 보고 싶습니다.
+
+
+    SELECT s.first_name, s.last_name, a.address
+    FROM staff s
+    INNER JOIN address a ON s.address_id = a.address_id;
+
+
      */
 }
