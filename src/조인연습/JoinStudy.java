@@ -99,5 +99,23 @@ public class JoinStudy {
 
 
 
+    ================================================================================
+
+    문제7)
+    모든 고객의 이름(first_name, last_name)과
+    그 고객이 지금까지 지불한 총 결제 금액(SUM(amount))을 보고 싶습니다.
+
+
+    SELECT c.first_name,
+	   c.last_name,
+	   SUM(p.amount)
+    FROM customer c
+    INNER JOIN payment p ON p.customer_id = c.customer_id
+    GROUP BY c.customer_id;
+    ================================================================================
+
+
+
+
      */
 }
