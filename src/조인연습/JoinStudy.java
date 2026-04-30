@@ -64,5 +64,40 @@ public class JoinStudy {
     INNER JOIN city c ON c.city_id = a.city_id;
 
 
+    문제6)
+
+    특정 고객의 이름(first_name, last_name)과
+    그 고객이 빌린 영화 제목(title)들을 전부 보고 싶습니다.
+
+
+    SELECT c.first_name, c.last_name, f.title
+    FROM customer c
+    INNER JOIN store s ON c.store_id = s.store_id
+    INNER JOIN inventory i ON i.store_id = s.store_id
+    INNER JOIN film f ON f.film_id = i.film_id;
+
+    틀림
+
+    현재 작성하신 쿼리의 연결 방식은 이렇습니다:
+    고객(c) ↔ 매장(s) ↔ 인벤토리(i) ↔ 영화(f)
+
+    결과: 이 쿼리를 실행하면 "특정 고객이 다니는 매장에 진열된 모든 영화"가 나옵니다.
+
+    이유: 고객이 1번 매장 소속이라면, 1번 매장에 있는 모든 DVD(인벤토리)와 연결되기 때문이죠.
+    우리가 알고 싶은 건 "그 고객이 돈을 내고 빌려간(rental) 영화"가 무엇인지입니다.
+
+
+    아 이해가 된다
+
+    ------- 다시 -------
+
+    SELECT c.first_name, c.last_name, f.title
+    FROM customer c
+    INNER JOIN rental r ON c.customer_id = r.customer_id
+    INNER JOIN inventory i ON i.inventory_id = r.inventory_id
+    INNER JOIN film f ON f.film_id = i.film_id;
+
+
+
      */
 }
