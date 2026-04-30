@@ -51,5 +51,18 @@ public class JoinStudy {
     INNER JOIN address a ON s.address_id = a.address_id;
 
 
+
+
+    문제5)
+    모든 직원의 이름(first_name, last_name)과
+    그 직원이 근무하는 도시 이름(city)을 보고 싶습니다.
+
+
+    SELECT s.first_name, s.last_name, c.city
+    FROM staff s
+    INNER JOIN address a ON a.address_id = s.address_id
+    INNER JOIN city c ON c.city_id = a.city_id;
+
+
      */
 }
