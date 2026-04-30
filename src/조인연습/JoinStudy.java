@@ -15,5 +15,18 @@ public class JoinStudy {
     INNER JOIN address a ON c.address_id = a.address_id;
 
 
+
+
+    문제2)
+    모든 영화의 제목(title)과 그 영화가 속한 카테고리 이름(name)을 함께 보고 싶습니다.
+
+
+    SELECT f.title, c.name
+    FROM film f
+    INNER JOIN film_category fc ON f.film_id = fc.film_id
+    INNER JOIN category c ON c.category_id = fc.category_id
+
+
+
      */
 }
